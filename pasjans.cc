@@ -15,6 +15,8 @@ using InputData = vector<DataRow>;
 using Clock = std::chrono::high_resolution_clock;
 using TimeMeasure = std::chrono::duration<double>;
 using ProgramResults = vector<unsigned>;
+using SumMatrix = vector<vector<unsigned>>;
+using MatrixRow = vector<unsigned>;
 
 // I/O functions
 InputData getInputData();
@@ -25,6 +27,11 @@ void print(const InputData &inputData);
 // Exact algorithm's functions
 ProgramResults playSolitaire(const InputData &inputData);
 unsigned calculateResult(const DataRow &dataRow);
+unsigned maxSum(
+		const vector<unsigned> &sequence,
+		const SumMatrix &maxSums,
+		unsigned i,
+		unsigned j);
 void printResults(const ProgramResults &results);
 
 // main
@@ -91,8 +98,52 @@ ProgramResults playSolitaire(const InputData &inputData) {
 	return std::move(results);
 }
 
-unsigned calculateResult(const DataRow & /*dataRow*/) {
-	return 0;
+unsigned calculateResult(const DataRow &dataRow) {
+	size_t sequenceSize = dataRow.first;
+	const auto &sequence = dataRow.second;
+	
+	SumMatrix maxSums(sequenceSize-1, MatrixRow());
+	
+	unsigned rowSize = sequenceSize;
+	maxSums.at(0).resize(--rowSize, 0);
+	maxSums.at(1).resize(--rowSize);
+	
+	for (unsigned i = 0, k = i+1, j = i+2; i < sequenceSize-2; ++i, ++k, ++j) {
+		auto &matrixRow = maxSums.at(1);
+		matrixRow.at(i) = sequence.at(i) + sequence.at(k) + sequence.at(j);
+	}
+	
+	for (unsigned r = 3; r < sequenceSize; ++r) {
+		maxSums.at(r-1).resize(--rowSize);
+		
+		for (unsigned i = 0; i < sequenceSize - r; ++i) {
+			unsigned j = i + r;
+			maxSums.at(r-1).at(i) = maxSum(sequence, maxSums, i, j);
+		}
+	}
+	unsigned maxResult = maxSums.at(sequenceSize-2).at(0);
+	return maxResult;
+}
+
+unsigned maxSum(
+		const vector<unsigned> &sequence,
+		const SumMatrix &maxSums,
+		unsigned i,
+		unsigned j) {
+	unsigned result = 0;
+	
+	for (unsigned k = i+1; k < j; ++k) {
+		unsigned temp = maxSums.at(k-i-1).at(i) +
+				maxSums.at(j-k-1).at(k) +
+				sequence.at(i) +
+				sequence.at(k) +
+				sequence.at(j);
+		
+		if (temp > result) {
+			result = temp;
+		}
+	}
+	return result;
 }
 
 void printResults(const ProgramResults &results) {
