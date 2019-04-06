@@ -70,7 +70,7 @@ InputData getInputData() {
 		size_t sequenceIndex = 0;
 		
 		while (inputStream >> sequenceElement) {
-			sequence.at(sequenceIndex++) = sequenceElement;
+			sequence[sequenceIndex++] = sequenceElement;
 		}		
 		inputData.push_back(std::move(DataRow(sequenceSize, sequence)));
 	}
@@ -105,23 +105,23 @@ unsigned calculateResult(const DataRow &dataRow) {
 	SumMatrix maxSums(sequenceSize-1, MatrixRow());
 	
 	unsigned rowSize = sequenceSize;
-	maxSums.at(0).resize(--rowSize, 0);
-	maxSums.at(1).resize(--rowSize);
+	maxSums[0].resize(--rowSize, 0);
+	maxSums[1].resize(--rowSize);
 	
 	for (unsigned i = 0, k = i+1, j = i+2; i < sequenceSize-2; ++i, ++k, ++j) {
-		auto &matrixRow = maxSums.at(1);
-		matrixRow.at(i) = sequence.at(i) + sequence.at(k) + sequence.at(j);
+		auto &matrixRow = maxSums[1];
+		matrixRow[i] = sequence[i] + sequence[k] + sequence[j];
 	}
 	
 	for (unsigned r = 3; r < sequenceSize; ++r) {
-		maxSums.at(r-1).resize(--rowSize);
+		maxSums[r-1].resize(--rowSize);
 		
 		for (unsigned i = 0; i < sequenceSize - r; ++i) {
 			unsigned j = i + r;
-			maxSums.at(r-1).at(i) = maxSum(sequence, maxSums, i, j);
+			maxSums[r-1][i] = maxSum(sequence, maxSums, i, j);
 		}
 	}
-	unsigned maxResult = maxSums.at(sequenceSize-2).at(0);
+	unsigned maxResult = maxSums[sequenceSize-2][0];
 	return maxResult;
 }
 
@@ -133,11 +133,11 @@ unsigned maxSum(
 	unsigned result = 0;
 	
 	for (unsigned k = i+1; k < j; ++k) {
-		unsigned temp = maxSums.at(k-i-1).at(i) +
-				maxSums.at(j-k-1).at(k) +
-				sequence.at(i) +
-				sequence.at(k) +
-				sequence.at(j);
+		unsigned temp = maxSums[k-i-1][i] +
+				maxSums[j-k-1][k] +
+				sequence[i] +
+				sequence[k] +
+				sequence[j];
 		
 		if (temp > result) {
 			result = temp;
