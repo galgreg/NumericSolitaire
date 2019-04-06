@@ -1,6 +1,7 @@
 #include "pasjans.h"
 #include <iostream>
 #include <sstream>
+#include <omp.h>
 
 #define PRINT_DEBUG 0
 
@@ -60,7 +61,7 @@ ProgramResults playSolitaire(const InputData &inputData) {
 	const size_t inputSize = inputData.size();
 	ProgramResults results(inputSize);
 	
-	for (size_t i = 0; i != inputSize; ++i) {
+	for (size_t i = 0; i < inputSize; ++i) {
 		unsigned result = calculateResult(inputData[i]);
 		results[i] = result;
 	}
@@ -77,19 +78,25 @@ unsigned calculateResult(const DataRow &dataRow) {
 	maxSums[0].resize(--rowSize, 0);
 	maxSums[1].resize(--rowSize);
 	
-	for (unsigned i = 0, k = i+1, j = i+2; i < sequenceSize-2; ++i, ++k, ++j) {
+	for (unsigned i = 0; i < sequenceSize-2; ++i) {
+		unsigned k = i+1, j = i+2;
 		auto &matrixRow = maxSums[1];
 		matrixRow[i] = sequence[i] + sequence[k] + sequence[j];
 	}
-	
+
 	for (unsigned r = 3; r < sequenceSize; ++r) {
 		maxSums[r-1].resize(--rowSize);
 		
-		for (unsigned i = 0; i < sequenceSize - r; ++i) {
-			unsigned j = i + r;
-			maxSums[r-1][i] = maxSum(sequence, maxSums, i, j);
+		#pragma omp parallel shared(maxSums) if(sequenceSize > 100)
+		{
+			#pragma omp for nowait
+			for (unsigned i = 0; i < sequenceSize - r; ++i) {
+				unsigned j = i + r;
+				maxSums[r-1][i] = maxSum(sequence, maxSums, i, j);
+			}
 		}
 	}
+	
 	unsigned maxResult = maxSums[sequenceSize-2][0];
 	return maxResult;
 }
