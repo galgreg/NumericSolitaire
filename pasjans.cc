@@ -78,16 +78,20 @@ unsigned calculateResult(const DataRow &dataRow) {
 	maxSums[0].resize(--rowSize, 0);
 	maxSums[1].resize(--rowSize);
 	
-	for (unsigned i = 0; i < sequenceSize-2; ++i) {
-		unsigned k = i+1, j = i+2;
-		auto &matrixRow = maxSums[1];
-		matrixRow[i] = sequence[i] + sequence[k] + sequence[j];
+	#pragma omp parallel if(sequenceSize > 100)
+	{
+		#pragma omp for nowait
+		for (unsigned i = 0; i < sequenceSize-2; ++i) {
+			unsigned k = i+1, j = i+2;
+			auto &matrixRow = maxSums[1];
+			matrixRow[i] = sequence[i] + sequence[k] + sequence[j];
+		}
 	}
-
+	
 	for (unsigned r = 3; r < sequenceSize; ++r) {
 		maxSums[r-1].resize(--rowSize);
 		
-		#pragma omp parallel shared(maxSums) if(sequenceSize > 100)
+		#pragma omp parallel if(sequenceSize > 100)
 		{
 			#pragma omp for nowait
 			for (unsigned i = 0; i < sequenceSize - r; ++i) {
