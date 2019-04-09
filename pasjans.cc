@@ -119,9 +119,7 @@ unsigned maxSum(
 				sequence[k] +
 				sequence[j];
 		
-		if (temp > result) {
-			result = temp;
-		}
+		temp > result ? result = temp : 0;
 	}
 	return result;
 }
