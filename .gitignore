@@ -1,5 +1,4 @@
 *
-!*.dat
 !*.cc
 !*.h
 !.gitignore
