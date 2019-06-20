@@ -1,5 +1,5 @@
 # Numeric solitaire
-## Algorithm description
+## Task description
 Let's say we have a game, in which there are integers arranged in a sequence.  
 For each step, we choose one number (which must be neither first or last), and remove it from sequence.  
 At the same time, we sum that number with its adjacents, and that sum add to our current total points.  
@@ -29,9 +29,16 @@ Each output number should be placed in separate row.
   * 31
   * 570
 
+## Algorithm description
+Algorithm used to solve task was based on [Dynamic Programming](https://www.geeksforgeeks.org/dynamic-programming/) method.  
+Its core concept is to use previously computed values to compute current value.  
+Thus, it allows to significant speed-up for solving wide range of problems.  
+As example of such problems, see [this](https://blog.usejournal.com/top-50-dynamic-programming-practice-problems-4208fed71aa3).
+
 ## Implementation details
 Program has been written in C++11. 
-To parallelize computation, I used OpenMP library.  
+To parallelize computation, I used [OpenMP](https://www.openmp.org/) library.  
+To compile program, I used g++ compiler in 7.4.0 version.
 Program use standard streams to receive input data and generate output results.
 
 ## How to run on Linux
@@ -40,10 +47,13 @@ Program use standard streams to receive input data and generate output results.
   * `sudo apt-get install g++`
 ### 2. Clone Git repo
 ### 3. Compile program
-  * `g++ -fopenmp -O3 gramatyka.cc -o gramatyka`
+  * `g++ -fopenmp -O3 pasjans.cc -o pasjans`
 ### 4. Run program
-  * `./gramatyka <input.txt >output.txt`
+  * `./pasjans <input.txt >output.txt`
 
 ## How to run on Windows
 To run on Windows, your compiler have to support C++11 standard and OpenMP library.  
 Please check apropriate documentation for more details.
+
+## Acknowledgments
+Special thanks for dr hab. Wojciech Wieczorek, who helped me a lot with finding right algorithm to solve a task.
