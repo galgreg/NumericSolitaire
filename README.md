@@ -42,7 +42,7 @@ As example of such problems, see [this](https://blog.usejournal.com/top-50-dynam
 ## Implementation details
 Program has been written in C++11. 
 To parallelize computation, I used [OpenMP](https://www.openmp.org/) library.  
-To compile program, I used g++ compiler in 7.4.0 version.
+To compile program, I used g++ compiler in 7.4.0 version.  
 Program use standard streams to receive input data and generate output results.
 
 ## How to run on Linux
