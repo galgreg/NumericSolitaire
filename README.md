@@ -18,7 +18,7 @@ For each input data set, program should output maximum possible to gain sum of p
 Each output number should be placed in separate row.
 
 ## Samples:
-  **Input data:**
+  **Input data** - _input.txt_
   ```
 5 1 2 3 4 5
 5 2 1 5 3 4
@@ -26,7 +26,7 @@ Each output number should be placed in separate row.
 0
   ```
   
-  **Expected results:**
+  **Expected results** - _output.txt_
   ```
 30
 31
