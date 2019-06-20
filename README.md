@@ -19,15 +19,19 @@ Each output number should be placed in separate row.
 
 ## Samples:
   **Input data:**
-  * 5 1 2 3 4 5
-  * 5 2 1 5 3 4
-  * 6 30 20 40 50 70 60
-  * 0
+  ```
+5 1 2 3 4 5
+5 2 1 5 3 4
+6 30 20 40 50 70 60
+0
+  ```
   
   **Expected results:**
-  * 30
-  * 31
-  * 570
+  ```
+30
+31
+570
+  ```
 
 ## Algorithm description
 Algorithm used to solve task was based on [Dynamic Programming](https://www.geeksforgeeks.org/dynamic-programming/) method.  
