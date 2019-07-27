@@ -61,7 +61,7 @@ g++ -fopenmp -O3 pasjans.cc -o pasjans
   ```
 ### 4. Run program
   ```
-./pasjans <input.txt >output.txt
+./pasjans <example_input.txt >example_output.txt
   ```
 
 ## How to run on Windows
