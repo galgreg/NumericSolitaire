@@ -49,11 +49,11 @@ InputData getInputData() {
 
 void print(const InputData &inputData) {
 	for (const auto &row: inputData) {
-		std::cout << row.first << " ";
+		std::cout << row.first << ' ';
 		for (const auto element : row.second) {
-			std::cout << element << " ";
+			std::cout << element << ' ';
 		}
-		std::cout << "\n";
+		std::cout << '\n';
 	}
 }
 
@@ -126,6 +126,6 @@ unsigned maxSum(
 
 void printResults(const ProgramResults &results) {
 	for (auto result : results) {
-		std::cout << result << "\n";
+		std::cout << result << '\n';
 	}
 }
