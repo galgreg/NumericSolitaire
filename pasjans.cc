@@ -42,7 +42,7 @@ InputData getInputData() {
 		while (inputStream >> sequenceElement) {
 			sequence[sequenceIndex++] = sequenceElement;
 		}		
-		inputData.push_back(std::move(DataRow(sequenceSize, sequence)));
+		inputData.push_back(DataRow(sequenceSize, sequence));
 	}
 	return std::move(inputData);
 }
@@ -65,7 +65,7 @@ ProgramResults playSolitaire(const InputData &inputData) {
 		unsigned result = calculateResult(inputData[i]);
 		results[i] = result;
 	}
-	return std::move(results);
+	return results;
 }
 
 unsigned calculateResult(const DataRow &dataRow) {
