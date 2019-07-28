@@ -42,18 +42,18 @@ InputData getInputData() {
 		while (inputStream >> sequenceElement) {
 			sequence[sequenceIndex++] = sequenceElement;
 		}		
-		inputData.push_back(std::move(DataRow(sequenceSize, sequence)));
+		inputData.push_back(DataRow(sequenceSize, sequence));
 	}
 	return std::move(inputData);
 }
 
 void print(const InputData &inputData) {
 	for (const auto &row: inputData) {
-		std::cout << row.first << " ";
+		std::cout << row.first << ' ';
 		for (const auto element : row.second) {
-			std::cout << element << " ";
+			std::cout << element << ' ';
 		}
-		std::cout << "\n";
+		std::cout << '\n';
 	}
 }
 
@@ -65,7 +65,7 @@ ProgramResults playSolitaire(const InputData &inputData) {
 		unsigned result = calculateResult(inputData[i]);
 		results[i] = result;
 	}
-	return std::move(results);
+	return results;
 }
 
 unsigned calculateResult(const DataRow &dataRow) {
@@ -119,13 +119,15 @@ unsigned maxSum(
 				sequence[k] +
 				sequence[j];
 		
-		temp > result ? result = temp : 0;
+		if (temp > result) {
+			result = temp;
+		}
 	}
 	return result;
 }
 
 void printResults(const ProgramResults &results) {
 	for (auto result : results) {
-		std::cout << result << "\n";
+		std::cout << result << '\n';
 	}
 }
