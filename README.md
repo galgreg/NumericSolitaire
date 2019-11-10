@@ -53,7 +53,7 @@ sudo apt-get install g++
   ```
 ### 2. Clone Git repo
   ```
-git clone https://gitlab.com/galgreg/pasjans.git
+git clone https://github.com/galgreg/NumericSolitaire.git
   ```
 ### 3. Compile program
   ```
